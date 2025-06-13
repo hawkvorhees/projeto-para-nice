@@ -1,0 +1,128 @@
+/* Resets básicos para garantir que não haja margens/padding padrão */
+html, body {
+    height: 100%; /* Ocupa 100% da altura da viewport */
+    width: 100%;  /* Ocupa 100% da largura da viewport */
+    margin: 0;
+    padding: 0;
+    overflow: hidden; /* Evita barras de rolagem indesejadas */
+    background-color: #000; /* Fundo preto padrão para toda a página */
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: #fff; /* Cor do texto padrão (para herança) */
+}
+
+body {
+    position: relative; /* FUNDAMENTAL: Necessário para posicionar elementos filhos ABSOLUTAMENTE dentro do body */
+    display: block; /* Garante que o body não interfira no posicionamento fixo/absoluto */
+}
+
+/* Estilo para a imagem inicial */
+#initialImage {
+    position: absolute; /* Posiciona a imagem sobre o canvas */
+    top: 50%; /* Centraliza verticalmente */
+    left: 50%; /* Centraliza horizontalmente */
+    transform: translate(-50%, -50%); /* Ajusta para centralizar com base no tamanho da imagem */
+    z-index: 99; /* NOVO: Z-index muito alto para garantir que ela apareça acima de TUDO */
+    max-width: 80%; /* Limita o tamanho máximo da imagem */
+    max-height: 80%; /* Limita o tamanho máximo da imagem */
+    object-fit: contain; /* Garante que a imagem se ajuste sem cortar ou distorcer */
+    opacity: 1; /* Inicialmente visível */
+    transition: opacity 0.5s ease-out; /* Transição suave ao desaparecer */
+}
+
+/* Classe para esconder a imagem */
+#initialImage.hidden-image {
+    opacity: 0; /* Torna a imagem invisível */
+    pointer-events: none; /* Impede cliques na área da imagem quando invisível */
+}
+
+#heartCanvas {
+    position: fixed; /* Fixa o canvas para cobrir a tela inteira, ignorando outros elementos */
+    top: 0;
+    left: 0;
+    width: 100vw; /* Ocupa 100% da largura da viewport */
+    height: 100vh; /* Ocupa 100% da altura da viewport */
+    z-index: 1; /* Coloca o canvas na camada de trás */
+    background-color: #000; /* Fundo preto garantido para o canvas */
+    cursor: pointer;
+    /* REMOVIDO: Transição para o filtro (desfoque) - não precisamos mais */
+    /* transition: filter 0.5s ease-in-out; */
+}
+
+#startButton {
+    position: absolute; /* Posiciona o botão ABSOLUTAMENTE sobre o canvas */
+    bottom: 30px; /* Distância do rodapé */
+    left: 50%; /* Centraliza o botão horizontalmente */
+    transform: translateX(-50%); /* Ajusta para centralizar exatamente com base na largura do botão */
+    z-index: 2; /* Coloca o botão acima do canvas */
+
+    padding: 12px 25px;
+    font-size: 1.3em;
+    font-weight: bold;
+    cursor: pointer;
+    background-color: #dc3545; /* Cor VERMELHA do botão */
+    color: white;
+    border: none;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
+    transition: background-color 0.3s ease, transform 0.2s ease;
+
+    width: fit-content; /* Faz o botão ter apenas a largura do seu conteúdo */
+    white-space: nowrap; /* Evita que o texto do botão quebre linha */
+}
+
+#startButton:hover {
+    background-color: #c82333; /* Vermelho mais escuro no hover */
+    transform: translateX(-50%) translateY(-2px); /* Efeito de leve levantamento no hover */
+}
+
+#startButton:active {
+    transform: translateX(-50%) translateY(0); /* Retorna à posição original ao ser clicado */
+}
+
+#messageContainer {
+    position: absolute; /* Posiciona o contêiner da mensagem ABSOLUTAMENTE sobre o canvas */
+    bottom: 100px; /* DISTÂNCIA DO RODAPÉ */
+    left: 50%; /* Centraliza o texto horizontalmente */
+    transform: translateX(-50%); /* Ajusta para centralizar exatamente */
+    z-index: 2; /* Coloca o texto acima do canvas */
+
+    font-size: 2.2em; /* Tamanho da fonte para a mensagem */
+    text-align: center;
+    max-width: 90%; /* Para que a mensagem não seja muito larga em telas grandes */
+    font-weight: 600;
+    color: #fff; /* Cor do texto da mensagem: BRANCO */
+    text-shadow: 0 0 15px #660000, 0 0 25px #660000; /* Glow rosa meio roxo */
+    background-color: transparent; /* GARANTE QUE O FUNDO DO CONTÊINER DO TEXTO SEJA TRANSPARENTE */
+
+    opacity: 0; /* Começa invisível */
+    transition: opacity 1.5s ease-in-out; /* Transição suave de visibilidade */
+}
+
+/* Classe para mostrar a mensagem */
+#messageContainer.visible {
+    opacity: 1;
+}
+
+/* Estilo para as palavras individuais */
+#message span {
+    display: inline-block; /* Permite espaçamento e controle de opacidade individual */
+    opacity: 0;
+    transform: translateY(10px); /* Começa ligeiramente abaixo */
+    transition: opacity 0.5s ease, transform 0.5s ease, color 0.8s ease-in-out; /* Adicionado transition para a cor */
+    color: inherit; /* Garante que o span herde a cor branca do messageContainer por padrão */
+}
+
+#message span.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* CLASSE PARA MUDAR A COR DO TEXTO PARA VERMELHO */
+.highlight-red {
+    color: #dc3545 !important; /* Adicionado !important para forçar a cor, superando herança */
+}
+
+/* REMOVIDO: Classe para aplicar o desfoque forte */
+/* .blurred-heart {
+    filter: blur(20px);
+} */
